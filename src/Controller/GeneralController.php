@@ -10,6 +10,12 @@ class GeneralController extends  AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function home(): Response
     {
-        return $this->render('general/home.html.twig');
+        $user = $this->getUser();
+
+        $email = $user ? $user->getEmail() : null;
+
+        return $this->render('general/home.html.twig', [
+            "user" => $email
+        ]);
     }
 }

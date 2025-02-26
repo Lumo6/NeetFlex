@@ -18,11 +18,15 @@ security:
             lazy: true
             provider: app_user_provider
             form_login:
+                login_path: app_login
+                check_path: app_login
                 default_target_path: app_home
-                login_path: app_register
-                check_path: app_register
+                enable_csrf: true
             logout:
-                path: logout
+                path: app_logout
+                target: app_home
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -33,10 +37,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # La page d'accueil est publique
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # Les autres pages nécessitent d'être connecté
-        - { path: ^/app, roles: ROLE_USER }
+        - { path: ^/api }
+        - { path: ^/register}
+        - { path: ^/login}
+        - { path: ^/, roles: ROLE_USER }
 
 
 

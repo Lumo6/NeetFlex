@@ -109,4 +109,6 @@ final class EventController extends AbstractController
 
         return $this->json($data);
     }
+
+
 }
