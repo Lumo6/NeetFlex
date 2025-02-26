@@ -2,9 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Artist;
+use App\Form\ArtistCreationFormType;
 use App\Repository\ArtistRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Attributes as OA;
 
@@ -100,5 +106,41 @@ final class ArtistController extends AbstractController
         ];
 
         return $this->json($data);
+    }
+
+    #[Route('/artist/create', name: 'artist_create')]
+    public function createArtist(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $artist = new Artist();
+        $form = $this->createForm(ArtistCreationFormType::class, $artist);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile instanceof UploadedFile) {
+                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('artist_images_directory'),
+                    $newFilename
+                );
+                $artist->setImage($newFilename);
+            }
+
+            $entityManager->persist($artist);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('artist_success');
+        }
+
+        return $this->render('artist/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/artist/success', name: 'artist_success')]
+    public function success(): Response
+    {
+        return $this->render('artist/success.html.twig');
     }
 }

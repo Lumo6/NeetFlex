@@ -1,0 +1,10 @@
+{# templates/event/success.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Événement créé{% endblock %}
+
+{% block body %}
+    <h1>Votre événement a été créé avec succès !</h1>
+    <p>Vous pouvez maintenant voir votre événement dans la liste.</p>
+    <a href="{{ path('app_home') }}">Retour à la page d'accueil</a>
+{% endblock %}

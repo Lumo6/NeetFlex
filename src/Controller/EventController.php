@@ -2,11 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
+use App\Form\EventCreationFormType;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Attributes as OA;
+
 
 final class EventController extends AbstractController
 {
@@ -47,7 +53,7 @@ final class EventController extends AbstractController
             "name" => $event->getName(),
             "date" => $event->getDate(),
             "artist" => $event->getArtist() ? $event->getArtist()->getName() : null,
-            "users" => array_map(fn($user) => $user->getUsername(), $event->getUsers()->toArray())
+            "users" => array_map(fn($user) => $user->getEmail(), $event->getUsers()->toArray())
         ], $events);
 
         if (empty($data)) {
@@ -110,5 +116,33 @@ final class EventController extends AbstractController
         return $this->json($data);
     }
 
+    #[Route('/event/create', name: 'app_event_create')]
+    public function createEvent(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $event = new Event();
+        $form = $this->createForm(EventCreationFormType::class, $event);
 
+        $form->handleRequest($request);
+
+        $user = $this->getUser();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $event->addUser($user);
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_event_success');
+        }
+
+        return $this->render('event/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/event/success', name: 'app_event_success')]
+    public function success(): Response
+    {
+        return $this->render('event/success.html.twig');
+    }
 }
