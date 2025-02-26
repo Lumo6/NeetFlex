@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints\Date;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
@@ -20,9 +22,17 @@ class Event
     #[ORM\Column]
     private ?Date $date = null;
 
-    #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: Artist::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Artist $artist = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "events")]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,5 +56,25 @@ class Event
     }
     public function setArtist(Artist $artist): void{
         $this->artist = $artist;
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): void
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addEvent($this);
+        }
+    }
+
+    public function removeUser(User $user): void
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeEvent($this);
+        }
     }
 }

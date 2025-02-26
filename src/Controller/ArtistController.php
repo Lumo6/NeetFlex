@@ -5,12 +5,11 @@ namespace App\Controller;
 use App\Repository\ArtistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Attributes as OA;
 
 final class ArtistController extends AbstractController
 {
-
     #[Route('/api/artists', name: 'api_artists', methods: ['GET'])]
     #[OA\Get(
         description: "Retourne un tableau de tous les artistes disponibles.",
@@ -27,7 +26,7 @@ final class ArtistController extends AbstractController
                             new OA\Property(property: "id", type: "integer"),
                             new OA\Property(property: "name", type: "string"),
                             new OA\Property(property: "desc", type: "string"),
-                            new OA\Property(property: "image", type: "Image"),
+                            new OA\Property(property: "image", type: "string")
                         ]
                     )
                 )
@@ -41,12 +40,12 @@ final class ArtistController extends AbstractController
         $data = array_map(fn($artist) => [
             "id" => $artist->getId(),
             "name" => $artist->getName(),
-            "desc" => $artist->getDescription(),
+            "desc" => $artist->getDesc(),
             "image" => $artist->getImage()
         ], $artists);
 
         if (!$data) {
-            return $this->json(['message' => 'Aucun artiste trouvé']);
+            return $this->json(['message' => 'Aucun artiste trouvé'], 404);
         }
 
         return $this->json($data);
@@ -75,7 +74,7 @@ final class ArtistController extends AbstractController
                         new OA\Property(property: "id", type: "integer"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "desc", type: "string"),
-                        new OA\Property(property: "image", type: "Image"),
+                        new OA\Property(property: "image", type: "string")
                     ]
                 )
             ),

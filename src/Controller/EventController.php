@@ -5,8 +5,7 @@ namespace App\Controller;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Attribute\Route;
-
+use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Attributes as OA;
 
 final class EventController extends AbstractController
@@ -27,7 +26,8 @@ final class EventController extends AbstractController
                             new OA\Property(property: "id", type: "integer"),
                             new OA\Property(property: "name", type: "string"),
                             new OA\Property(property: "date", type: "string"),
-                            new OA\Property(property: "artist", type: "Artist"),
+                            new OA\Property(property: "artist", type: "string"),
+                            new OA\Property(property: "users", type: "array", items: new OA\Items(type: "string")),
                         ]
                     )
                 )
@@ -42,15 +42,16 @@ final class EventController extends AbstractController
     {
         $events = $eventRepository->findAll();
 
-        $data = array_map(fn($events) => [
-            "id" => $events->getId(),
-            "name" => $events->getName(),
-            "date" => $events->getDate(),
-            "artist" => $events->getArtist()
+        $data = array_map(fn($event) => [
+            "id" => $event->getId(),
+            "name" => $event->getName(),
+            "date" => $event->getDate(),
+            "artist" => $event->getArtist() ? $event->getArtist()->getName() : null,
+            "users" => array_map(fn($user) => $user->getUsername(), $event->getUsers()->toArray())
         ], $events);
 
-        if (!$data) {
-            return $this->json(['message' => 'Aucun event trouvé']);
+        if (empty($data)) {
+            return $this->json(['message' => 'Aucun événement trouvé'], 404);
         }
 
         return $this->json($data);
@@ -79,7 +80,8 @@ final class EventController extends AbstractController
                         new OA\Property(property: "id", type: "integer"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "date", type: "string"),
-                        new OA\Property(property: "artist", type: "Artist"),
+                        new OA\Property(property: "artist", type: "string"),
+                        new OA\Property(property: "users", type: "array", items: new OA\Items(type: "string")),
                     ]
                 )
             ),
@@ -89,19 +91,20 @@ final class EventController extends AbstractController
             )
         ]
     )]
-    public function getArtist(int $id, EventRepository $eventRepository): JsonResponse
+    public function getEvent(int $id, EventRepository $eventRepository): JsonResponse
     {
         $event = $eventRepository->find($id);
 
         if (!$event) {
-            return $this->json(['message' => 'Event non trouvé'], 404);
+            return $this->json(['message' => 'Événement non trouvé'], 404);
         }
 
         $data = [
             "id" => $event->getId(),
             "name" => $event->getName(),
             "date" => $event->getDate(),
-            "artist" => $event->getArtist()
+            "artist" => $event->getArtist() ? $event->getArtist()->getName() : null,
+            "users" => array_map(fn($user) => $user->getUsername(), $event->getUsers()->toArray()) // Liste des noms d'utilisateurs
         ];
 
         return $this->json($data);
