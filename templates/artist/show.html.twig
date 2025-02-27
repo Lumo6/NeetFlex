@@ -1,5 +1,6 @@
 <h1>{{ artist.name }}</h1>
 <p>{{ artist.desc }}</p>
+
 {% if artist.image %}
     <img src="/uploads/artists/{{ artist.image }}" alt="{{ artist.name }}" width="150">
 {% else %}
@@ -9,10 +10,15 @@
 <h2>Liste des évènements inscrits</h2>
 <ul>
     {% if events is empty %}
-        <p>Aucun évènements inscrit.</p>
+        <p>Aucun évènement inscrit.</p>
     {% else %}
         {% for event in events %}
-            <li><a href={{ path('app_events_show', {"id": event.id}) }}>{{ event.name }}</a></li>
+            <li><a href="{{ path('app_events_show', {'id': event.id}) }}">{{ event.name }}</a></li>
         {% endfor %}
     {% endif %}
 </ul>
+
+{# Vérifie si l'utilisateur est un administrateur pour afficher le bouton "Modifier" #}
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_artists_edit', {'id': artist.id}) }}" class="btn btn-primary">Modifier</a>
+{% endif %}

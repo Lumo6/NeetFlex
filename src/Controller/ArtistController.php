@@ -8,6 +8,7 @@ use App\Repository\ArtistRepository;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -122,6 +123,8 @@ final class ArtistController extends AbstractController
     #[Route('/artists/create', name: 'app_artists_create')]
     public function createArtist(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $artist = new Artist();
         $form = $this->createForm(ArtistCreationFormType::class, $artist);
 
@@ -141,13 +144,68 @@ final class ArtistController extends AbstractController
             $entityManager->persist($artist);
             $entityManager->flush();
 
-            return $this->redirectToRoute('artists_success');
+            return $this->redirectToRoute('app_artists_success');
         }
 
         return $this->render('artist/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
+
+    #[Route('/artists/{id}/edit', name: 'app_artists_edit')]
+    public function editArtist(int $id, Request $request, ArtistRepository $artistRepository, EntityManagerInterface $entityManager): Response
+    {
+        $artist = $artistRepository->find($id);
+
+        if (!$artist) {
+            throw $this->createNotFoundException('Artist not found');
+        }
+
+        $originalImage = $artist->getImage();  // Garder l'ancienne image
+        $form = $this->createForm(ArtistCreationFormType::class, $artist);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Si une nouvelle image est téléchargée
+            $imageFile = $form->get('image')->getData();
+
+            if ($imageFile) {
+                // Supprimer l'ancienne image si elle existe
+                if ($originalImage) {
+                    $filesystem = new Filesystem();
+                    $imagePath = $this->getParameter('artist_images_directory') . '/' . $originalImage;
+
+                    if ($filesystem->exists($imagePath)) {
+                        $filesystem->remove($imagePath);
+                    }
+                }
+
+                // Déplacer la nouvelle image téléchargée
+                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('artist_images_directory'),
+                    $newFilename
+                );
+
+                $artist->setImage($newFilename);  // Enregistrer la nouvelle image
+            } else {
+                // Si aucune nouvelle image n'est téléchargée, garder l'ancienne image
+                $artist->setImage($originalImage);
+            }
+
+            $entityManager->persist($artist);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_artists_show', ['id' => $artist->getId()]);
+        }
+
+        return $this->render('artist/edit.html.twig', [
+            'form' => $form->createView(),
+            'artist' => $artist,
+        ]);
+    }
+
 
     #[Route('/artists/success', name: 'app_artists_success')]
     public function success(): Response

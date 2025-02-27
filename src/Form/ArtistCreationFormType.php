@@ -20,8 +20,8 @@ class ArtistCreationFormType extends AbstractType
             ->add('desc', TextareaType::class)
             ->add('image', FileType::class, [
                 'required' => false,
-                'label' => 'Image (facultatif)',
-                'mapped' => false,
+                'label' => 'Image',
+                'data_class' => null
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter l\'artiste',

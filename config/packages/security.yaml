@@ -37,10 +37,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api }
-        - { path: ^/register}
-        - { path: ^/login}
+        - { path: ^/artists/create, roles: ROLE_ADMIN }
+        - { path: ^/artists/edit, roles: ROLE_ADMIN }
+        - { path: ^/users, roles: ROLE_ADMIN }
+
         - { path: ^/, roles: ROLE_USER }
+
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
 
 
