@@ -1,0 +1,18 @@
+<h1>{{ artist.name }}</h1>
+<p>{{ artist.desc }}</p>
+{% if artist.image %}
+    <img src="/uploads/artists/{{ artist.image }}" alt="{{ artist.name }}" width="150">
+{% else %}
+    <p>Pas d'image disponible.</p>
+{% endif %}
+
+<h2>Liste des évènements inscrits</h2>
+<ul>
+    {% if events is empty %}
+        <p>Aucun évènements inscrit.</p>
+    {% else %}
+        {% for event in events %}
+            <li><a href={{ path('app_events_show', {"id": event.id}) }}>{{ event.name }}</a></li>
+        {% endfor %}
+    {% endif %}
+</ul>

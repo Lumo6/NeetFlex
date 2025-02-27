@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Artist;
 use App\Form\ArtistCreationFormType;
 use App\Repository\ArtistRepository;
+use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -108,7 +109,17 @@ final class ArtistController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/artist/create', name: 'artist_create')]
+    #[Route('/artists', name: 'app_artists')]
+    public function index(ArtistRepository $artistRepository): Response
+    {
+        $artists = $artistRepository->findAll();
+
+        return $this->render('artist/index.html.twig', [
+            'artists' => $artists,
+        ]);
+    }
+
+    #[Route('/artists/create', name: 'app_artists_create')]
     public function createArtist(Request $request, EntityManagerInterface $entityManager): Response
     {
         $artist = new Artist();
@@ -130,7 +141,7 @@ final class ArtistController extends AbstractController
             $entityManager->persist($artist);
             $entityManager->flush();
 
-            return $this->redirectToRoute('artist_success');
+            return $this->redirectToRoute('artists_success');
         }
 
         return $this->render('artist/create.html.twig', [
@@ -138,9 +149,27 @@ final class ArtistController extends AbstractController
         ]);
     }
 
-    #[Route('/artist/success', name: 'artist_success')]
+    #[Route('/artists/success', name: 'app_artists_success')]
     public function success(): Response
     {
         return $this->render('artist/success.html.twig');
     }
+
+    #[Route('/artists/{id}', name: 'app_artists_show', methods: ['GET'])]
+    public function showArtist(int $id, ArtistRepository $artistRepository, EventRepository $eventRepository): Response
+    {
+        $artist = $artistRepository->find($id);
+
+        if (!$artist) {
+            throw $this->createNotFoundException('Artiste non trouvé.');
+        }
+
+        $events = $eventRepository->findByArtist($id);
+
+        return $this->render('artist/show.html.twig', [
+            'artist' => $artist,
+            'events' => $events
+        ]);
+    }
+
 }

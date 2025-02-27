@@ -1,0 +1,41 @@
+{# templates/event/show.html.twig #}
+
+<h1>{{ event.name }}</h1>
+<p><strong>Date :</strong> {{ event.date|date('d-m-Y') }}</p>
+
+<h2>Artiste associé</h2>
+<p><strong>Nom :</strong> <a href="{{ path('app_artists_show', {'id': event.artist.id}) }}">{{ event.artist.name }}</a></p>
+{% if event.artist.image %}
+    <img src="/uploads/artists/{{ event.artist.image }}" alt="{{ event.artist.name }}" width="150">
+{% else %}
+    <p>Pas d'image disponible.</p>
+{% endif %}
+
+<h2>Liste des utilisateurs inscrits</h2>
+<ul>
+    {% if event.users is empty %}
+        <p>Aucun utilisateur inscrit.</p>
+    {% else %}
+        {% for user in event.users %}
+            <li>{{ user.email }}</li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+{% if isCreator %}
+    <a href="{{ path('app_events_edit', { 'id': event.id }) }}">Modifier</a>
+
+    <form action="{{ path('app_events_delete', { 'id': event.id }) }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+        <button type="submit">Supprimer</button>
+    </form>
+{% else %}
+    {% if isRegistered %}
+        <form action="{{ path('app_events_unregister', { 'id': event.id }) }}" method="post">
+            <button type="submit">Se désinscrire</button>
+        </form>
+    {% else %}
+        <form action="{{ path('app_events_register', { 'id': event.id }) }}" method="post">
+            <button type="submit">S'inscrire</button>
+        </form>
+    {% endif %}
+{% endif %}

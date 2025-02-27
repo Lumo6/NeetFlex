@@ -23,8 +23,8 @@ class Artist
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Image(
-        mimeTypes: ["image/png", "image/jpeg", "image/gif"],
         maxSize: "5M",
+        mimeTypes: ["image/png", "image/jpeg", "image/gif"],
         maxSizeMessage: "L'image ne doit pas dépasser 5 Mo."
     )]
     private ?string $image = null;

@@ -41,4 +41,16 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Récupère les événements via l'artiste
+     */
+    public function findByArtist(int $id): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.artist = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
 }

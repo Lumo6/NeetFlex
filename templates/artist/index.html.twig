@@ -1,20 +1,24 @@
-{% extends 'base.html.twig' %}
+{# templates/artist/index.html.twig #}
 
-{% block title %}Hello ArtistController!{% endblock %}
+<h1>Liste des Artistes</h1>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/jules/Bureau/Symfony/NeetFlex/src/Controller/ArtistController.php</code></li>
-        <li>Your template at <code>/home/jules/Bureau/Symfony/NeetFlex/templates/artist/index.html.twig</code></li>
-    </ul>
+<div class="artists">
+    {% if artists is empty %}
+        <p>Aucun artiste disponible.</p>
+    {% else %}
+        <ul>
+            {% for artist in artists %}
+                <li>
+                    <h3>{{ artist.name }}</h3>
+                    <p>{{ artist.desc }}</p>
+                    {% if artist.image %}
+                        <img src="{{ asset('uploads/artists/' ~ artist.image) }}" alt="{{ artist.name }}" width="150">
+                    {% else %}
+                        <p>Aucune image disponible.</p>
+                    {% endif %}
+                    <a href="{{ path('app_artists_show', { id: artist.id }) }}">Voir plus</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </div>
-{% endblock %}

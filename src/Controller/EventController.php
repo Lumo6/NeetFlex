@@ -16,7 +16,7 @@ use OpenApi\Attributes as OA;
 
 final class EventController extends AbstractController
 {
-    #[Route('/api/events', name: 'app_events', methods: ['GET'])]
+    #[Route('/api/events', name: 'api_events', methods: ['GET'])]
     #[OA\Get(
         description: "Retourne tous les événements disponibles.",
         summary: "Récupère la liste des événements",
@@ -116,6 +116,18 @@ final class EventController extends AbstractController
         return $this->json($data);
     }
 
+    #[Route('/events', name: 'app_events')]
+    public function index(EventRepository $eventRepository): Response
+    {
+        // Récupérer tous les événements
+        $events = $eventRepository->findAll();
+
+        // Passer les événements à la vue
+        return $this->render('event/index.html.twig', [
+            'events' => $events,
+        ]);
+    }
+
     #[Route('/events/create', name: 'app_events_create')]
     public function createEvent(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -160,5 +172,107 @@ final class EventController extends AbstractController
         return $this->render('event/follow.html.twig', [
             'events' => $events
         ]);
+    }
+
+    #[Route('/events/{id}', name: 'app_events_show', methods: ['GET'])]
+    public function show(int $id, EventRepository $eventRepository): Response
+    {
+        $event = $eventRepository->find($id);
+
+        if (!$event) {
+            throw $this->createNotFoundException('Événement non trouvé.');
+        }
+
+        $isCreator = $event->getCreator() === $this->getUser();
+
+        $isRegistered = $event->getUsers()->contains($this->getUser());
+
+        return $this->render('event/show.html.twig', [
+            'event' => $event,
+            "isCreator" => $isCreator,
+            "isRegistered" => $isRegistered,
+        ]);
+    }
+
+    #[Route('/events/{id}/edit', name: 'app_events_edit')]
+    public function editEvent(int $id, EventRepository $eventRepository, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $event = $eventRepository->find($id);
+
+        if (!$event) {
+            throw $this->createNotFoundException('L\'événement n\'existe pas.');
+        }
+
+        $user = $this->getUser();
+
+        if ($event->getCreator() !== $user) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas modifier cet événement.');
+        }
+
+        $form = $this->createForm(EventCreationFormType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_events_show', ['id' => $event->getId()]);
+        }
+
+        return $this->render('event/edit.html.twig', [
+            'form' => $form->createView(),
+            'event' => $event
+        ]);
+    }
+
+    #[Route('/events/{id}/delete', name: 'app_events_delete', methods: ['POST'])]
+    public function deleteEvent(int $id, EventRepository $eventRepository, EntityManagerInterface $entityManager): Response
+    {
+        $event = $eventRepository->find($id);
+
+        if (!$event) {
+            throw $this->createNotFoundException('L\'événement n\'existe pas.');
+        }
+
+        $user = $this->getUser();
+
+        if ($event->getCreator() !== $user) {
+            throw $this->createAccessDeniedException('Vous ne pouvez pas supprimer cet événement.');
+        }
+
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+        // Redirection après la suppression
+        return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/events/{id}/register', name: 'app_events_register', methods: ['POST'])]
+    public function register(EventRepository $eventRepository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $event = $eventRepository->find($id);
+
+        if ($event) {
+            $user = $this->getUser();
+            $event->addUser($user);
+
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_events_show', ['id' => $id]);
+    }
+
+    #[Route('/events/{id}/unregister', name: 'app_events_unregister', methods: ['POST'])]
+    public function unregister(EventRepository $eventRepository, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $event = $eventRepository->find($id);
+
+        if ($event) {
+            $user = $this->getUser();
+            $event->removeUser($user);
+
+           $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_events_show', ['id' => $id]);
     }
 }

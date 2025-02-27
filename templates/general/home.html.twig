@@ -46,7 +46,7 @@
             <ul>
                 {% for event in events %}
                     <li>
-                        <h3>{{ event.name }}</h3>
+                        <a href="{{ path('app_events_show', {'id': event.id}) }}"><h3>{{ event.name }}</h3></a>
                         <p>{{ event.date|date('d/m/Y') }}</p>
                         <p>{{ event.artist.name }}</p>
                         <div>

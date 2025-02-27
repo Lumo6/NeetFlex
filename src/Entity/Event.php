@@ -81,4 +81,9 @@ class Event
             $user->removeEvent($this);
         }
     }
+
+    public function getCreator(): ?User
+    {
+        return $this->users->first() ?: null;
+    }
 }

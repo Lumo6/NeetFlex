@@ -1,20 +1,20 @@
-{% extends 'base.html.twig' %}
+{# templates/event/index.html.twig #}
 
-{% block title %}Hello EventController!{% endblock %}
+<h1>Liste des Événements</h1>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/jules/Bureau/Symfony/NeetFlex/src/Controller/EventController.php</code></li>
-        <li>Your template at <code>/home/jules/Bureau/Symfony/NeetFlex/templates/event/index.html.twig</code></li>
-    </ul>
+<div class="events">
+    {% if events is empty %}
+        <p>Aucun événement disponible.</p>
+    {% else %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <h3>{{ event.name }}</h3>
+                    <p>Date : {{ event.date|date('d/m/Y H:i') }}</p>
+                    <p>Artiste : <a href="{{ path('app_artists_show', { id: event.artist.id }) }}">{{ event.artist.name }}</a></p>
+                    <a href="{{ path('app_events_show', { id: event.id }) }}">Voir plus</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </div>
-{% endblock %}
