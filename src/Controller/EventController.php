@@ -116,7 +116,7 @@ final class EventController extends AbstractController
         return $this->json($data);
     }
 
-    #[Route('/event/create', name: 'app_event_create')]
+    #[Route('/events/create', name: 'app_events_create')]
     public function createEvent(Request $request, EntityManagerInterface $entityManager): Response
     {
         $event = new Event();
@@ -132,7 +132,7 @@ final class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_event_success');
+            return $this->redirectToRoute('app_events_success');
         }
 
         return $this->render('event/create.html.twig', [
@@ -140,9 +140,25 @@ final class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/event/success', name: 'app_event_success')]
+    #[Route('/events/success', name: 'app_events_success')]
     public function success(): Response
     {
         return $this->render('event/success.html.twig');
+    }
+
+    #[Route('/events/follow', name: 'app_events_follow')]
+    public function followEvent(EventRepository $eventRepository): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir vos événements.');
+        }
+
+        $events = $eventRepository->findByUserEmail($user->getEmail());
+
+        return $this->render('event/follow.html.twig', [
+            'events' => $events
+        ]);
     }
 }

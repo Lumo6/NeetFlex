@@ -1,2 +1,65 @@
 <h1>Ceci est la page d'accueil</h1>
 <p>Bienvenue {{ user }}</p>
+
+
+<div style="display: flex; flex-direction: row">
+    <div class="artists" style="width: 50%">
+        <h2>Liste des artistes :</h2>
+
+        <form method="GET" action="{{ path('app_home') }}">
+            <input type="hidden" name="dateEvent" value="{{ dateFilter }}">
+            <input type="text" name="nameArtist" placeholder="Rechercher un artiste" value="{{ searchTermArtist }}">
+            <button type="submit">Rechercher</button>
+        </form>
+
+        {% if artists is empty %}
+            <p>Aucun artiste disponible.</p>
+        {% else %}
+            <ul>
+                {% for artist in artists %}
+                    <li>
+                        <h3>{{ artist.name }}</h3>
+                        <p>{{ artist.desc }}</p>
+                        {% if artist.image %}
+                            <img src="/uploads/artists/{{ artist.image }}" alt="{{ artist.name }}" width="150">
+                        {% else %}
+                            <p>Pas d'image disponible.</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <div class="events" style="width: 50%">
+        <h2>Liste des events :</h2>
+
+        <form id="searchForm" method="GET" action="{{ path('app_home') }}">
+            <input type="hidden" name="nameArtist" value="{{ searchTermArtist }}">
+            <input type="date" name="dateEvent" value="{{ dateFilter }}">
+            <button type="submit">Filtrer</button>
+        </form>
+
+        {% if events is empty %}
+            <p>Aucun évènement disponible.</p>
+        {% else %}
+            <ul>
+                {% for event in events %}
+                    <li>
+                        <h3>{{ event.name }}</h3>
+                        <p>{{ event.date|date('d/m/Y') }}</p>
+                        <p>{{ event.artist.name }}</p>
+                        <div>
+                            <h4>Utilisateurs inscrits</h4>
+                            <ul>
+                                {% for user in event.users %}
+                                    <li>{{ user.email }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

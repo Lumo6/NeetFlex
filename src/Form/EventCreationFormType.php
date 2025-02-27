@@ -29,7 +29,7 @@ class EventCreationFormType extends AbstractType
             ])
             ->add('artist', EntityType::class, [
                 'class' => Artist::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer l\'événement',

@@ -1,0 +1,15 @@
+<h1>Voici la liste des évènements auquel tu es incrits !</h1>
+
+{% if events is empty %}
+    <p>Aucun événement suivi.</p>
+{% else %}
+    <ul>
+        {% for event in events %}
+            <li>
+                <h3>{{ event.name }}</h3>
+                <p>Date : {{ event.date|date('d/m/Y H:i') }}</p>
+                <p>Artiste : {{ event.artist.name }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
