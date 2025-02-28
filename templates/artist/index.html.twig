@@ -1,24 +1,36 @@
 {# templates/artist/index.html.twig #}
 
-<h1>Liste des Artistes</h1>
+{% extends 'base.html.twig' %}
 
-<div class="artists">
-    {% if artists is empty %}
-        <p>Aucun artiste disponible.</p>
-    {% else %}
-        <ul>
-            {% for artist in artists %}
-                <li>
-                    <h3>{{ artist.name }}</h3>
-                    <p>{{ artist.desc }}</p>
-                    {% if artist.image %}
-                        <img src="{{ asset('uploads/artists/' ~ artist.image) }}" alt="{{ artist.name }}" width="150">
-                    {% else %}
-                        <p>Aucune image disponible.</p>
-                    {% endif %}
-                    <a href="{{ path('app_artists_show', { id: artist.id }) }}">Voir plus</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</div>
+{% block title %}Artistes{% endblock %}
+
+{% block body %}
+    <main>
+        <div class="artists">
+            {% if artists is empty %}
+                <p>Aucun artiste disponible.</p>
+            {% else %}
+                <ul>
+                    {% for artist in artists %}
+                        <li>
+                            <div class="artists-ul-li-left">
+                                {% if artist.image %}
+                                    <img src="{{ asset('uploads/artists/' ~ artist.image) }}" alt="{{ artist.name }}" width="150">
+                                {% else %}
+                                    <p>Aucune image disponible.</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="artists-ul-li-right">
+                                <h2>{{ artist.name }}</h2>
+                                <p>{{ artist.desc }}</p>
+
+                                <a href="{{ path('app_artists_show', { id: artist.id }) }}">Voir plus</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

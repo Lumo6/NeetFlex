@@ -1,0 +1,87 @@
+:root {
+    --dark-green: #18534F;
+    --green: #226D68;
+    --white: #ECF8F6;
+    --yellow: #FEEAA1;
+    --orange: #D6955B;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Exo 2", serif;
+}
+
+body {
+    background: linear-gradient(to top, var(--yellow), var(--white)) no-repeat fixed;
+    height: 100dvh;
+}
+
+header {
+    background: rgba(24, 83, 79, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    padding: 25px;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header .header-left *,
+header .header-right * {
+    color: var(--dark-green);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    margin: 50px;
+}
+
+
+.artists li {
+    background: rgba(24, 83, 79, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+    border-radius: 10px;
+
+    width: auto;
+
+    margin: 15px 0;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    transition: transform 0.3s ease;
+}
+
+.artists li:hover {
+    transform: translateY(-5px);
+}
+
+.artists div * {
+    margin: 10px;
+}
+
+.artists h2 {
+    color: var(--green);
+    margin-bottom: 10px;
+}
+
+.artists a {
+    text-decoration: none;
+    color: var(--green);
+    font-weight: 300;
+}
