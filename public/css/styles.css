@@ -12,20 +12,25 @@
     font-family: "Exo 2", serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-green);
+}
+
 body {
     background: linear-gradient(to top, var(--yellow), var(--white)) no-repeat fixed;
     height: 100dvh;
 }
 
 header {
-    background: rgba(24, 83, 79, 0.1);
+    width: 1250px;
+
     display: flex;
     justify-content: space-around;
     align-items: center;
 
-    padding: 25px;
+    margin: 25px auto;
 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 25px;
 }
 
 header .header-left *,
@@ -39,25 +44,36 @@ nav ul {
     gap: 20px;
 }
 
+nav ul li {
+    transition: transform 0.3s ease;
+}
+
 nav a {
     color: white;
     text-decoration: none;
 }
 
 main {
-    margin: 50px;
+    margin: 80px auto;
+    width: 1250px;
 }
 
-
-.artists li {
+header,
+.artist,
+.artists li,
+.create-artist,
+.edit-artist,
+.events
+{
     background: rgba(24, 83, 79, 0.1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
+.artists li,
+.artist {
     border-radius: 10px;
 
-    width: auto;
-
-    margin: 15px 0;
+    margin: 15px auto;
     padding: 15px;
 
     display: flex;
@@ -67,21 +83,88 @@ main {
     transition: transform 0.3s ease;
 }
 
-.artists li:hover {
+nav ul li:hover,
+.artists li:hover,
+.artist:hover,
+.create-artist-submit:hover,
+.edit-artist-submit:hover {
     transform: translateY(-5px);
 }
 
-.artists div * {
+.artists div *,
+.artist div * {
     margin: 10px;
 }
 
-.artists h2 {
+.artists h2,
+.artist h1 {
     color: var(--green);
     margin-bottom: 10px;
 }
 
-.artists a {
+.artists a,
+.artist a {
     text-decoration: none;
     color: var(--green);
     font-weight: 300;
+}
+
+.create-artist,
+.edit-artist {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-artist h1,
+.edit-artist h1 {
+    margin: 15px;
+}
+
+.create-artist-form,
+.edit-artist-form {
+    margin-bottom: 25px;
+    padding: 10px;
+
+    width: 100%;
+
+    border: 0;
+    border-radius: 10px;
+}
+
+.create-artist-form::placeholder,
+.edit-artist-form::placeholder {
+    font-weight: 300;
+    color: var(--green);
+}
+
+.create-artist-form,
+.edit-artist-form {
+    transition: transform 0.3s ease;
+}
+
+.create-artist-submit:hover,
+.edit-artist-submit:hover {
+    color: white;
+    background-color: var(--green);
+}
+
+.events {
+    padding: 10px;
+}
+
+.events h2 {
+    color: var(--green);
+}
+
+.events ul {
+    margin-top: 10px;
+    list-style: none;
+}
+
+.events ul li a {
+    color: black;
+    text-decoration: none;
 }

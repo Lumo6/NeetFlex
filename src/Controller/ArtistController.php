@@ -162,16 +162,14 @@ final class ArtistController extends AbstractController
             throw $this->createNotFoundException('Artist not found');
         }
 
-        $originalImage = $artist->getImage();  // Garder l'ancienne image
+        $originalImage = $artist->getImage();
         $form = $this->createForm(ArtistCreationFormType::class, $artist);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Si une nouvelle image est téléchargée
             $imageFile = $form->get('image')->getData();
 
             if ($imageFile) {
-                // Supprimer l'ancienne image si elle existe
                 if ($originalImage) {
                     $filesystem = new Filesystem();
                     $imagePath = $this->getParameter('artist_images_directory') . '/' . $originalImage;
@@ -181,16 +179,14 @@ final class ArtistController extends AbstractController
                     }
                 }
 
-                // Déplacer la nouvelle image téléchargée
                 $newFilename = uniqid() . '.' . $imageFile->guessExtension();
                 $imageFile->move(
                     $this->getParameter('artist_images_directory'),
                     $newFilename
                 );
 
-                $artist->setImage($newFilename);  // Enregistrer la nouvelle image
+                $artist->setImage($newFilename);
             } else {
-                // Si aucune nouvelle image n'est téléchargée, garder l'ancienne image
                 $artist->setImage($originalImage);
             }
 

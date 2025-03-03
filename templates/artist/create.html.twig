@@ -5,12 +5,14 @@
 {% block title %}Créer un artiste{% endblock %}
 
 {% block body %}
-    <h1>Créer un nouvel artiste</h1>
+    <div class="create-artist">
+        <h1>Créer un nouvel artiste</h1>
 
-    {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.desc) }}
-    {{ form_row(form.image) }}
-    {{ form_row(form.submit) }}
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.desc) }}
+        {{ form_row(form.image) }}
+        {{ form_row(form.submit) }}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

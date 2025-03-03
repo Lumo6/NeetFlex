@@ -16,15 +16,23 @@ class ArtistCreationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('desc', TextareaType::class)
+            ->add('name', TextType::class, [
+                'label' => false,
+                'attr' => ["class" => "create-artist-name create-artist-form edit-artist-name edit-artist-form", "placeholder" => "Nom de l'artiste"],
+            ])
+            ->add('desc', TextareaType::class, [
+                'label' => false,
+                'attr' => ["class" => "create-artist-desc create-artist-form edit-artist-desc edit-artist-form", "placeholder" => "Description de l'artiste"]
+            ])
             ->add('image', FileType::class, [
+                'label' => false,
                 'required' => false,
-                'label' => 'Image',
-                'data_class' => null
+                'data_class' => null,
+                'attr' => ["class" => "create-artist-image create-artist-form edit-artist-image edit-artist-form"],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter l\'artiste',
+                'attr' => ["class" => "create-artist-submit create-artist-form edit-artist-submit edit-artist-form"],
             ])
         ;
     }
