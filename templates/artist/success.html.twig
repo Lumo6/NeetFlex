@@ -4,7 +4,9 @@
 {% block title %}Artiste créé{% endblock %}
 
 {% block body %}
-    <h1>Votre artiste a été créé avec succès !</h1>
-    <p>Vous pouvez maintenant voir votre artiste dans la liste.</p>
-    <a href="{{ path('app_home') }}">Retour à la page d'accueil</a>
+    <div class="success">
+        <h1>Votre artiste a été créé avec succès !</h1>
+        <p>Vous pouvez maintenant voir votre artiste dans la liste.</p>
+        <a href="{{ path('app_home') }}">Retour à la page d'accueil</a>
+    </div>
 {% endblock %}

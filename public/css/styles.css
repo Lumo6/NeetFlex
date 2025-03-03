@@ -63,7 +63,10 @@ header,
 .artists li,
 .create-artist,
 .edit-artist,
-.events
+.events,
+.success,
+.create-event,
+.edit-event
 {
     background: rgba(24, 83, 79, 0.1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -87,7 +90,10 @@ nav ul li:hover,
 .artists li:hover,
 .artist:hover,
 .create-artist-submit:hover,
-.edit-artist-submit:hover {
+.edit-artist-submit:hover,
+.create-event-submit:hover,
+.edit-event-submit:hover,
+.delete-event:hover{
     transform: translateY(-5px);
 }
 
@@ -103,14 +109,17 @@ nav ul li:hover,
 }
 
 .artists a,
-.artist a {
+.artist a,
+.success a{
     text-decoration: none;
     color: var(--green);
     font-weight: 300;
 }
 
 .create-artist,
-.edit-artist {
+.edit-artist,
+.create-event,
+.edit-event {
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -119,12 +128,16 @@ nav ul li:hover,
 }
 
 .create-artist h1,
-.edit-artist h1 {
+.edit-artist h1,
+.create-event h1,
+.edit-event h1 {
     margin: 15px;
 }
 
 .create-artist-form,
-.edit-artist-form {
+.edit-artist-form,
+.create-event-form,
+.edit-event-form {
     margin-bottom: 25px;
     padding: 10px;
 
@@ -135,27 +148,50 @@ nav ul li:hover,
 }
 
 .create-artist-form::placeholder,
-.edit-artist-form::placeholder {
+.edit-artist-form::placeholder,
+.create-event-form::placeholder,
+.edit-event-form::placeholder {
     font-weight: 300;
     color: var(--green);
 }
 
 .create-artist-form,
-.edit-artist-form {
+.edit-artist-form,
+.create-event-form,
+.edit-event-form,
+.delete-event {
     transition: transform 0.3s ease;
 }
 
 .create-artist-submit:hover,
-.edit-artist-submit:hover {
+.edit-artist-submit:hover,
+.create-event-submit:hover,
+.edit-event-submit:hover,
+.delete-event:hover {
     color: white;
     background-color: var(--green);
 }
 
-.events {
+.edit-event a {
+    text-decoration: none;
+    color: var(--green);
+}
+
+.delete-event {
+    padding: 10px;
+    border: 0;
+    border-radius: 10px;
+
+    color: red;
+}
+
+.events,
+.success {
     padding: 10px;
 }
 
-.events h2 {
+.events h2,
+.success h1 {
     color: var(--green);
 }
 
