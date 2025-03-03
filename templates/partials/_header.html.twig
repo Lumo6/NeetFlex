@@ -12,6 +12,7 @@
                     <li><a href="{{ path('app_artists') }}">Artistes</a></li>
                     <li><a href="{{ path('app_events') }}">Événements</a></li>
                     <li><a href="{{ path('app_events_create') }}">Créer un évènement</a></li>
+                    <li><a href="{{ path('app_events_follow') }}">Evènements suivis</a></li>
                 {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}

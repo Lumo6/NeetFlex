@@ -111,14 +111,18 @@ final class ArtistController extends AbstractController
     }
 
     #[Route('/artists', name: 'app_artists')]
-    public function index(ArtistRepository $artistRepository): Response
+    public function index(ArtistRepository $artistRepository, Request $request): Response
     {
-        $artists = $artistRepository->findAll();
-
-
+        $nameArtist = $request->query->get('nameArtist', '');
+        if ($nameArtist) {
+            $artists = $artistRepository->searchByName($nameArtist);
+        } else {
+            $artists = $artistRepository->findBy([], ['id' => 'DESC']);
+        }
 
         return $this->render('artist/index.html.twig', [
             'artists' => $artists,
+            "searchTermArtist" => $nameArtist,
         ]);
     }
 

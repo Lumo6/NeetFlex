@@ -5,6 +5,11 @@
 {% block title %}Artistes{% endblock %}
 
 {% block body %}
+    <form method="GET" action="{{ path('app_artists') }}">
+        <input type="text" name="nameArtist" placeholder="Rechercher un artiste" value="{{ searchTermArtist }}" class="name-search-form name-search-form-name">
+        <button type="submit" class="name-search-form name-search-form-submit">Rechercher</button>
+    </form>
+
     <div class="artists">
         {% if artists is empty %}
             <p>Aucun artiste disponible.</p>

@@ -117,14 +117,20 @@ final class EventController extends AbstractController
     }
 
     #[Route('/events', name: 'app_events')]
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, Request $request): Response
     {
-        // Récupérer tous les événements
-        $events = $eventRepository->findAll();
+        $dateFilter = $request->query->get('dateEvent');
+        if ($dateFilter) {
+            $date = \DateTime::createFromFormat('Y-m-d', $dateFilter);
+            $events = $eventRepository->findByDate($date);
+        } else {
+            $events = $eventRepository->findBy([], ['id' => 'DESC']);
+        }
 
         // Passer les événements à la vue
         return $this->render('event/index.html.twig', [
             'events' => $events,
+            'dateFilter' => $dateFilter
         ]);
     }
 

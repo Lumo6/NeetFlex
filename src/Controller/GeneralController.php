@@ -13,10 +13,6 @@ class GeneralController extends  AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function home(ArtistRepository $artistRepository, EventRepository $eventRepository, Request $request): Response
     {
-        // User
-        $user = $this->getUser();
-        $email = $user?->getEmail();
-
         // Recherche artiste
         $nameArtist = $request->query->get('nameArtist', '');
         if ($nameArtist) {
@@ -34,7 +30,6 @@ class GeneralController extends  AbstractController
         }
 
         return $this->render('general/home.html.twig', [
-            "user" => $email,
             "artists" => $artists,
             "events" => $events,
             "searchTermArtist" => $nameArtist,

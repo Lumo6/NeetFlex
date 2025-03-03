@@ -12,11 +12,11 @@
         {% else %}
             {% if isRegistered %}
                 <form action="{{ path('app_events_unregister', { 'id': event.id }) }}" method="post">
-                    <button type="submit">Se désinscrire</button>
+                    <button type="submit" class="event-register">Se désinscrire</button>
                 </form>
             {% else %}
                 <form action="{{ path('app_events_register', { 'id': event.id }) }}" method="post">
-                    <button type="submit">S'inscrire</button>
+                    <button type="submit" class="event-register">S'inscrire</button>
                 </form>
             {% endif %}
         {% endif %}

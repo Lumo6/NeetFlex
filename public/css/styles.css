@@ -119,7 +119,8 @@ nav ul li:hover,
 .register-form-submit:hover,
 .login-form-submit:hover,
 .name-search-form-submit:hover,
-.date-search-form-submit:hover {
+.date-search-form-submit:hover,
+.event-register:hover {
     transform: translateY(-5px);
 }
 
@@ -209,7 +210,8 @@ nav ul li:hover,
 .register-form,
 .login-form,
 .name-search-form,
-.date-search-form {
+.date-search-form,
+.event-register {
     transition: transform 0.3s ease;
 }
 
@@ -221,7 +223,8 @@ nav ul li:hover,
 .register-form-submit:hover,
 .login-form-submit:hover,
 .name-search-form-submit,
-.date-search-form-submit {
+.date-search-form-submit,
+.event-register:hover{
     color: white;
     background-color: var(--green);
 }
@@ -233,12 +236,18 @@ nav ul li:hover,
     color: var(--green);
 }
 
-.delete-event {
+.delete-event,
+.event-register {
     padding: 10px;
     border: 0;
     border-radius: 10px;
 
     color: red;
+}
+
+.event-register {
+    color: var(--green);
+    margin-top: 10px;
 }
 
 .events,
