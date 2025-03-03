@@ -231,7 +231,8 @@ nav ul li:hover,
 
 .edit-event a,
 .register a,
-.login a {
+.login a,
+.error {
     text-decoration: none;
     color: var(--green);
 }
