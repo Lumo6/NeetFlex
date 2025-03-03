@@ -1,20 +1,22 @@
-{# templates/event/index.html.twig #}
+{% extends 'base.html.twig' %}
 
-<h1>Liste des Événements</h1>
+{% block title %}Liste des évènements{% endblock %}
 
-<div class="events">
-    {% if events is empty %}
-        <p>Aucun événement disponible.</p>
-    {% else %}
-        <ul>
-            {% for event in events %}
-                <li>
-                    <h3>{{ event.name }}</h3>
-                    <p>Date : {{ event.date|date('d/m/Y H:i') }}</p>
-                    <p>Artiste : <a href="{{ path('app_artists_show', { id: event.artist.id }) }}">{{ event.artist.name }}</a></p>
-                    <a href="{{ path('app_events_show', { id: event.id }) }}">Voir plus</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</div>
+{% block body %}
+    <div class="events-list">
+        {% if events is empty %}
+            <p>Aucun événement disponible.</p>
+        {% else %}
+            <ul>
+                {% for event in events %}
+                    <li>
+                        <h3><a class="event-title" href={{ path('app_events_show', {"id": event.id}) }}>{{ event.name }}</a></h3>
+                        <p>Date : {{ event.date|date('d/m/Y H:i') }}</p>
+                        <p>Artiste : <a href="{{ path('app_artists_show', { id: event.artist.id }) }}">{{ event.artist.name }}</a></p>
+                        <a href="{{ path('app_events_show', { id: event.id }) }}">Voir plus</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

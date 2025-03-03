@@ -66,14 +66,22 @@ header,
 .events,
 .success,
 .create-event,
-.edit-event
+.edit-event,
+.followed-event li,
+.events-list li,
+.event,
+.users
 {
     background: rgba(24, 83, 79, 0.1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .artists li,
-.artist {
+.artist,
+.followed-event li,
+.events-list li,
+.event,
+.users {
     border-radius: 10px;
 
     margin: 15px auto;
@@ -86,6 +94,13 @@ header,
     transition: transform 0.3s ease;
 }
 
+.followed-event li,
+.events-list li,
+.event,
+.users {
+    flex-direction: column;
+}
+
 nav ul li:hover,
 .artists li:hover,
 .artist:hover,
@@ -93,7 +108,11 @@ nav ul li:hover,
 .edit-artist-submit:hover,
 .create-event-submit:hover,
 .edit-event-submit:hover,
-.delete-event:hover{
+.delete-event:hover,
+.followed-event li:hover,
+.events-list li:hover,
+.event:hover,
+.users:hover {
     transform: translateY(-5px);
 }
 
@@ -103,17 +122,27 @@ nav ul li:hover,
 }
 
 .artists h2,
-.artist h1 {
+.artist h1,
+.followed-event li h3,
+.event h1{
     color: var(--green);
     margin-bottom: 10px;
 }
 
 .artists a,
 .artist a,
-.success a{
+.success a,
+.followed-event a,
+.events-list a,
+.event a{
     text-decoration: none;
     color: var(--green);
     font-weight: 300;
+}
+
+.followed-event .event-title,
+.events-list .event-title {
+    font-weight: bold;
 }
 
 .create-artist,
@@ -186,21 +215,32 @@ nav ul li:hover,
 }
 
 .events,
-.success {
+.success,
+.users {
     padding: 10px;
 }
 
 .events h2,
-.success h1 {
+.success h1,
+.users h2{
     color: var(--green);
 }
 
-.events ul {
+.events ul,
+.users ul {
     margin-top: 10px;
     list-style: none;
 }
 
-.events ul li a {
+.events ul li a,
+.users ul li a {
     color: black;
     text-decoration: none;
+}
+
+.followed-event-h1,
+.events-list h3{
+    color: var(--green);
+    margin-bottom: 10px;
+    width: 100%;
 }
