@@ -5,12 +5,13 @@
 {% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Liste des utilisateurs</h1>
+    <div class="users">
+        <h1>Liste des utilisateurs</h1>
 
-    <ul>
-        {% for user in users %}
-            <li>{{ user.email }}</li>
-        {% endfor %}
-    </ul>
-
+        <ul>
+            {% for user in users %}
+                <li>{{ user.email }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

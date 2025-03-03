@@ -70,8 +70,10 @@ header,
 .followed-event li,
 .events-list li,
 .event,
-.users
-{
+.users,
+.register,
+.login,
+.artists-general-list li {
     background: rgba(24, 83, 79, 0.1);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -81,7 +83,8 @@ header,
 .followed-event li,
 .events-list li,
 .event,
-.users {
+.users,
+.artists-general-list li {
     border-radius: 10px;
 
     margin: 15px auto;
@@ -112,7 +115,11 @@ nav ul li:hover,
 .followed-event li:hover,
 .events-list li:hover,
 .event:hover,
-.users:hover {
+.users:hover,
+.register-form-submit:hover,
+.login-form-submit:hover,
+.name-search-form-submit:hover,
+.date-search-form-submit:hover {
     transform: translateY(-5px);
 }
 
@@ -148,7 +155,9 @@ nav ul li:hover,
 .create-artist,
 .edit-artist,
 .create-event,
-.edit-event {
+.edit-event,
+.register,
+.login-form {
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -159,14 +168,20 @@ nav ul li:hover,
 .create-artist h1,
 .edit-artist h1,
 .create-event h1,
-.edit-event h1 {
+.edit-event h1,
+.register h1,
+.login h1 {
     margin: 15px;
 }
 
 .create-artist-form,
 .edit-artist-form,
 .create-event-form,
-.edit-event-form {
+.edit-event-form,
+.register-form,
+.login-form,
+.name-search-form,
+.date-search-form {
     margin-bottom: 25px;
     padding: 10px;
 
@@ -179,7 +194,9 @@ nav ul li:hover,
 .create-artist-form::placeholder,
 .edit-artist-form::placeholder,
 .create-event-form::placeholder,
-.edit-event-form::placeholder {
+.edit-event-form::placeholder,
+.register-form::placeholder,
+.login-form::placeholder {
     font-weight: 300;
     color: var(--green);
 }
@@ -188,7 +205,11 @@ nav ul li:hover,
 .edit-artist-form,
 .create-event-form,
 .edit-event-form,
-.delete-event {
+.delete-event,
+.register-form,
+.login-form,
+.name-search-form,
+.date-search-form {
     transition: transform 0.3s ease;
 }
 
@@ -196,12 +217,18 @@ nav ul li:hover,
 .edit-artist-submit:hover,
 .create-event-submit:hover,
 .edit-event-submit:hover,
-.delete-event:hover {
+.delete-event:hover,
+.register-form-submit:hover,
+.login-form-submit:hover,
+.name-search-form-submit,
+.date-search-form-submit {
     color: white;
     background-color: var(--green);
 }
 
-.edit-event a {
+.edit-event a,
+.register a,
+.login a {
     text-decoration: none;
     color: var(--green);
 }
@@ -243,4 +270,32 @@ nav ul li:hover,
     color: var(--green);
     margin-bottom: 10px;
     width: 100%;
+}
+
+.register,
+.login {
+    text-align: center;
+}
+
+.login-form {
+    width: auto;
+    margin-bottom: 0;
+}
+
+.login-form-email,
+.login-form-password {
+    margin-bottom: 25px;
+}
+
+.name-search-form-name,
+.date-search-form-date {
+    margin-top: 10px;
+}
+
+.name-search-form-name {
+    padding-left: 10px;
+}
+
+form input {
+    box-sizing: border-box;
 }

@@ -22,7 +22,7 @@ class GeneralController extends  AbstractController
         if ($nameArtist) {
             $artists = $artistRepository->searchByName($nameArtist);
         } else {
-            $artists = $artistRepository->findAll();
+            $artists = $artistRepository->findBy([], ['id' => 'DESC']);
         }
 
         $dateFilter = $request->query->get('dateEvent');
@@ -30,7 +30,7 @@ class GeneralController extends  AbstractController
             $date = \DateTime::createFromFormat('Y-m-d', $dateFilter);
             $events = $eventRepository->findByDate($date);
         } else {
-            $events = $eventRepository->findAll();
+            $events = $eventRepository->findBy([], ['id' => 'DESC']);
         }
 
         return $this->render('general/home.html.twig', [

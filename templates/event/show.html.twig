@@ -34,6 +34,7 @@
         <div class="artists-ul-li-right">
             <h1>{{ event.artist.name }}</h1>
             <p>{{ event.artist.desc }}</p>
+            <a href={{ path('app_artists_show', {"id": event.artist.id }) }}>Voir plus</a>
         </div>
     </div>
 
