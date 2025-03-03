@@ -31,6 +31,7 @@
                                 <div class="artists-ul-li-right">
                                     <h1>{{ artist.name }}</h1>
                                     <p>{{ artist.desc }}</p>
+                                    <a href={{ path("app_artists_show", {"id": artist.id}) }}>Voir plus</a>
                                 </div>
                             </li>
                         {% endfor %}
