@@ -81,6 +81,13 @@ L'application utilise des **pages personnalisées** pour les erreurs (403, 404, 
 
 ### Étapes d'installation
 
+0. **ACTIVER l'EXTENSION FILEINFO DANS VOTRE PHP.INI**
+
+Le php.ini est accessible via :
+```bash
+php --ini
+```
+
 1. **Cloner le repository :**
 
 ```bash
