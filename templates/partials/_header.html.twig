@@ -17,6 +17,7 @@
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('app_artists_create') }}">Créer un artiste</a></li>
+                    <li><a href="{{ path('app_users') }}">Liste des utilisateurs</a></li>
                 {% endif %}
 
                 {% if app.user %}

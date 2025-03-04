@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class UserController extends AbstractController
 {
-    #[Route('/users', name: 'app_users_list')]
+    #[Route('/users', name: 'app_users')]
     public function listUsers(UserRepository $userRepository, AuthorizationCheckerInterface $authorizationChecker): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
