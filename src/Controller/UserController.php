@@ -13,6 +13,7 @@ final class UserController extends AbstractController
     #[Route('/users', name: 'app_users')]
     public function listUsers(UserRepository $userRepository, AuthorizationCheckerInterface $authorizationChecker): Response
     {
+        # Vérifie que l'utilisateur est ADMIN
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $users = $userRepository->findAll();

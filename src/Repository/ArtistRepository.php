@@ -18,6 +18,10 @@ class ArtistRepository extends ServiceEntityRepository
 
     /**
      * Recherche les artistes par nom (partiel).
+     *
+     * @param string $name Nom pour la recherche
+     *
+     * @return array
      */
     public function searchByName(string $name): array
     {

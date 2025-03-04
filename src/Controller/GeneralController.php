@@ -13,7 +13,7 @@ class GeneralController extends  AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function home(ArtistRepository $artistRepository, EventRepository $eventRepository, Request $request): Response
     {
-        // Recherche artiste
+        // Recherche artiste par rapport au nom
         $nameArtist = $request->query->get('nameArtist', '');
         if ($nameArtist) {
             $artists = $artistRepository->searchByName($nameArtist);
@@ -21,6 +21,7 @@ class GeneralController extends  AbstractController
             $artists = $artistRepository->findBy([], ['id' => 'DESC']);
         }
 
+        // Recherche évènement par date
         $dateFilter = $request->query->get('dateEvent');
         if ($dateFilter) {
             $date = \DateTime::createFromFormat('Y-m-d', $dateFilter);

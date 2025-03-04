@@ -18,6 +18,10 @@ class EventRepository extends ServiceEntityRepository
 
     /**
      * Récupère les événements de l'utilisateur via son adresse e-mail
+     *
+     * @param string $email Email de l'utilisateur
+     *
+     * @return array Liste des évènements de où est inscrit l'utilisateur
      */
     public function findByUserEmail(string $email): array
     {
@@ -31,6 +35,10 @@ class EventRepository extends ServiceEntityRepository
 
     /**
      * Récupère les événements via la date
+     *
+     * @param \DateTime $date Date
+     *
+     * @return array - Liste des évènements
      */
     public function findByDate(\DateTime $date): array
     {
@@ -44,6 +52,10 @@ class EventRepository extends ServiceEntityRepository
 
     /**
      * Récupère les événements via l'artiste
+     *
+     * @param int $id ID de l'utilisateur
+     *
+     * @return array Liste des évènements
      */
     public function findByArtist(int $id): array
     {

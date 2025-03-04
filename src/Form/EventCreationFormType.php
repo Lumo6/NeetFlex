@@ -26,6 +26,7 @@ class EventCreationFormType extends AbstractType
                 'label' => false,
                 'widget' => 'single_text',
                 'constraints' => [
+                    # Vérifie que la date de l'évènement n'est pas antérieure à la date actuelle
                     new GreaterThanOrEqual([
                         'value' => 'today',
                         'message' => 'La date ne peut pas être antérieure à aujourd\'hui.',
@@ -36,7 +37,7 @@ class EventCreationFormType extends AbstractType
             ->add('artist', EntityType::class, [
                 'class' => Artist::class,
                 'label' => false,
-                'choice_label' => 'name',
+                'choice_label' => 'name', # Affiche le nom de l'artiste pour l'associé à l'évènement
                 'attr' => ["class" => "create-event-date create-event-form edit-event-date edit-event-form"],
             ])
             ->add('submit', SubmitType::class, [
