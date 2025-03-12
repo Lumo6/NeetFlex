@@ -110,7 +110,7 @@ final class EventController extends AbstractController
             "name" => $event->getName(),
             "date" => $event->getDate(),
             "artist" => $event->getArtist() ? $event->getArtist()->getName() : null,
-            "users" => array_map(fn($user) => $user->getUsername(), $event->getUsers()->toArray()) // Liste des noms d'utilisateurs
+            "users" => array_map(fn($user) => $user->getEmail(), $event->getUsers()->toArray()) // Liste des noms d'utilisateurs
         ];
 
         return $this->json($data);
