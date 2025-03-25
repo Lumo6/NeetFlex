@@ -1,0 +1,36 @@
+.events-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.filter-input {
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sort-button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.events-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.event-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.event-item:hover {
+  background-color: #f0f0f0;
+}
+
+.event-item.last-item {
+  border-bottom: none;
+}

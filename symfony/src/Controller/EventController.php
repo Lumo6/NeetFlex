@@ -32,7 +32,12 @@ final class EventController extends AbstractController
                             new OA\Property(property: "id", type: "integer"),
                             new OA\Property(property: "name", type: "string"),
                             new OA\Property(property: "date", type: "string"),
-                            new OA\Property(property: "artist", type: "string"),
+                            new OA\Property(property: "artist", type: "object", properties: [
+                                new OA\Property(property: "id", type: "integer"),
+                                new OA\Property(property: "name", type: "string"),
+                                new OA\Property(property: "image", type: "string"),
+                                new OA\Property(property: "desc", type: "string"),
+                            ]),
                             new OA\Property(property: "users", type: "array", items: new OA\Items(type: "string")),
                         ]
                     )
@@ -52,7 +57,12 @@ final class EventController extends AbstractController
             "id" => $event->getId(),
             "name" => $event->getName(),
             "date" => $event->getDate(),
-            "artist" => $event->getArtist() ? $event->getArtist()->getName() : null,
+            "artist" => $event->getArtist() ? [
+                "id" => $event->getArtist()->getId(),
+                "name" => $event->getArtist()->getName(),
+                "image" => $event->getArtist()->getImage(),
+                "desc" => $event->getArtist()->getDesc(),
+            ] : null,
             "users" => array_map(fn($user) => $user->getEmail(), $event->getUsers()->toArray())
         ], $events);
 
@@ -86,7 +96,12 @@ final class EventController extends AbstractController
                         new OA\Property(property: "id", type: "integer"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "date", type: "string"),
-                        new OA\Property(property: "artist", type: "string"),
+                        new OA\Property(property: "artist", type: "object", properties: [
+                                new OA\Property(property: "id", type: "integer"),
+                                new OA\Property(property: "name", type: "string"),
+                                new OA\Property(property: "image", type: "string"),
+                                new OA\Property(property: "desc", type: "string"),
+                            ]),
                         new OA\Property(property: "users", type: "array", items: new OA\Items(type: "string")),
                     ]
                 )
@@ -109,7 +124,12 @@ final class EventController extends AbstractController
             "id" => $event->getId(),
             "name" => $event->getName(),
             "date" => $event->getDate(),
-            "artist" => $event->getArtist() ? $event->getArtist()->getName() : null,
+            "artist" => $event->getArtist() ? [
+                "id" => $event->getArtist()->getId(),
+                "name" => $event->getArtist()->getName(),
+                "image" => $event->getArtist()->getImage(),
+                "desc" => $event->getArtist()->getDesc(),
+            ] : null,
             "users" => array_map(fn($user) => $user->getEmail(), $event->getUsers()->toArray()) // Liste des noms d'utilisateurs
         ];
 

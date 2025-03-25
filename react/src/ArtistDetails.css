@@ -1,0 +1,30 @@
+.artist-details-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.artist-image {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.artist-events-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.artist-event-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.artist-event-item:hover {
+  background-color: #f0f0f0;
+}
+
+.back-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

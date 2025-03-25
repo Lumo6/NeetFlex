@@ -1,0 +1,10 @@
+.event-details-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.back-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

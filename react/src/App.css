@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+.app-container {
+  font-family: Arial, sans-serif;
+}
+
+.app-nav {
+  margin-bottom: 20px;
+}
+
+.nav-button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.home-container ul {
+  list-style-type: none;
+  padding: 0;
+}
