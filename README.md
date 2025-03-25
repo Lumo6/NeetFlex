@@ -80,14 +80,6 @@ L'application utilise des **pages personnalisées** pour les erreurs (403, 404, 
 
 ### Étapes d'installation
 
-0. **ACTIVER l'EXTENSION FILEINFO DANS VOTRE PHP.INI**
-
-Le php.ini est accessible via :
-
-```bash
-php --ini
-```
-
 1. **Cloner le repository :**
 
 ```bash
@@ -95,22 +87,58 @@ git clone https://github.com/Lumo6/NeetFlex.git
 cd NeetFlex
 ```
 
-2. **Installer les dépendances :**
+2. **ACTIVER l'EXTENSION FILEINFO DANS VOTRE PHP.INI**
+
+Le php.ini est accessible via :
+
+```bash
+php --ini
+```
+
+3. **Installer les dépendances :**
 
 ```bash
 composer install
 ```
 
-3. **Exécuter les migrations :**
+4. **Exécuter les migrations :**
 
 ```bash
 php bin/console doctrine:migrations:migrate
 ```
 
-4. **Lancer le serveur Symfony :**
+5. **Lancer le serveur Symfony :**
 
 ```bash
 symfony server:start --port=44444
 ```
 
 Accède à l'application en visitant `http://127.0.0.1:44444` dans ton navigateur.
+
+### Installation du Front-end (React)
+
+1. **Aller dans le dossier `react`**
+
+```bash
+cd react
+```
+
+ou depuis le dossier symfony :
+
+```bash
+cd ../react
+```
+
+2. **Installer les dépendances**
+
+```bash
+npm install
+```
+
+3. **Lancer l'application React :**
+
+```bash
+npm run dev
+```
+
+Accède à l'application en visitant `http://127.0.0.1:5173` dans ton navigateur.
