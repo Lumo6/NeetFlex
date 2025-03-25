@@ -78,13 +78,13 @@ L'application utilise des **pages personnalisées** pour les erreurs (403, 404, 
 - Symfony CLI
 - SQLite
 
-### Étapes d'installation
+### Installation du projet Symfony
 
 1. **Cloner le repository :**
 
 ```bash
 git clone https://github.com/Lumo6/NeetFlex.git
-cd NeetFlex
+cd NeetFlex/symfony
 ```
 
 2. **ACTIVER l'EXTENSION FILEINFO DANS VOTRE PHP.INI**
@@ -115,18 +115,12 @@ symfony server:start --port=44444
 
 Accède à l'application en visitant `http://127.0.0.1:44444` dans ton navigateur.
 
-### Installation du Front-end (React)
+### Installation du projet React
 
 1. **Aller dans le dossier `react`**
 
 ```bash
 cd react
-```
-
-ou depuis le dossier symfony :
-
-```bash
-cd ../react
 ```
 
 2. **Installer les dépendances**
