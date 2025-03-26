@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ event.name }}{% endblock %}
+
+{% block body %}
+    <div class="edit-event">
+        <h1>Modifier l'événement : {{ event.name }}</h1>
+
+        {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.date) }}
+        {{ form_row(form.artist) }}
+        {{ form_row(form.submit, {'label': "Modifier"}) }}
+        {{ form_end(form) }}
+
+        {% if app.user == event.creator %}
+            <div>
+                <form method="post" action="{{ path('app_events_delete', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                    <button class="delete-event">Supprimer l'événement</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 20px;">
+            <a href="{{ path('app_events_show', {'id': event.id}) }}">Retour à l'événement</a>
+        </div>
+    </div>
+{% endblock %}

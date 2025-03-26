@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Mon Site{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    </head>
+
+    <body>
+        {% include 'partials/_header.html.twig' %}
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+    </body>
+</html>

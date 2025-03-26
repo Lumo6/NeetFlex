@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ artist.name }}{% endblock %}
+
+{% block body %}
+    <div class="artist">
+        <div class="artists-ul-li-left">
+            {% if artist.image %}
+                <img src="/uploads/artists/{{ artist.image }}" alt="{{ artist.name }}" width="150">
+            {% else %}
+                <p>Pas d'image disponible.</p>
+            {% endif %}
+        </div>
+
+        <div class="artists-ul-li-right">
+            <h1>{{ artist.name }}</h1>
+            <p>{{ artist.desc }}</p>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_artists_edit', {'id': artist.id}) }}" class="btn btn-primary">Modifier</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="events">
+        <h2>Liste des évènements inscrits</h2>
+        <ul>
+            {% if events is empty %}
+                <p>Aucun évènement inscrit.</p>
+            {% else %}
+                {% for event in events %}
+                    <li><a href="{{ path('app_events_show', {'id': event.id}) }}">{{ event.name }} ({{ event.date|date('d/m/Y') }})</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

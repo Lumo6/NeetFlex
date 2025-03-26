@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="login">
+        <form method="post" class="login-form">
+            <h1>Se connecter</h1>
+            <input type="email" value="{{ last_username }}" name="_username" id="username" class="login-form-email login-form" placeholder="Email" autocomplete="email" required autofocus>
+            <input type="password" name="_password" id="password" class="login-form-password login-form" placeholder="Mot de passe" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            <button class="login-form-submit login-form" type="submit">
+                Se connecter
+            </button>
+        </form>
+        <a href={{ path('app_register') }}>S'inscrire</a>
+    </div>
+{% endblock %}

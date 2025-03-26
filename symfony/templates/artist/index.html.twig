@@ -1,0 +1,39 @@
+{# templates/artist/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Artistes{% endblock %}
+
+{% block body %}
+    <form method="GET" action="{{ path('app_artists') }}">
+        <input type="text" name="nameArtist" placeholder="Rechercher un artiste" value="{{ searchTermArtist }}" class="name-search-form name-search-form-name">
+        <button type="submit" class="name-search-form name-search-form-submit">Rechercher</button>
+    </form>
+
+    <div class="artists">
+        {% if artists is empty %}
+            <p>Aucun artiste disponible.</p>
+        {% else %}
+            <ul>
+                {% for artist in artists %}
+                    <li>
+                        <div class="artists-ul-li-left">
+                            {% if artist.image %}
+                                <img src="{{ asset('uploads/artists/' ~ artist.image) }}" alt="{{ artist.name }}" width="150">
+                            {% else %}
+                                <p>Aucune image disponible.</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="artists-ul-li-right">
+                            <h2>{{ artist.name }}</h2>
+                            <p>{{ artist.desc }}</p>
+
+                            <a href="{{ path('app_artists_show', { id: artist.id }) }}">Voir plus</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

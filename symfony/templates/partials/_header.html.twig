@@ -1,0 +1,32 @@
+<header>
+    <div class="header-left">
+        <h1>NeetFlex</h1>
+    </div>
+
+    <div class="header-right">
+        <nav>
+            <ul>
+                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+
+                {% if app.user %}
+                    <li><a href="{{ path('app_artists') }}">Artistes</a></li>
+                    <li><a href="{{ path('app_events') }}">Événements</a></li>
+                    <li><a href="{{ path('app_events_create') }}">Créer un évènement</a></li>
+                    <li><a href="{{ path('app_events_follow') }}">Evènements suivis</a></li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('app_artists_create') }}">Créer un artiste</a></li>
+                    <li><a href="{{ path('app_users') }}">Liste des utilisateurs</a></li>
+                {% endif %}
+
+                {% if app.user %}
+                    <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+</header>

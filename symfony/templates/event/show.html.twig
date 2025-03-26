@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block body %}
+    <div class="event">
+        <h1>{{ event.name }}</h1>
+        <p><strong>Date :</strong> {{ event.date|date('d-m-Y') }}</p>
+
+        {% if isCreator %}
+            <a style="margin-top: 10px; font-weight: 500" href="{{ path('app_events_edit', { 'id': event.id }) }}">Modifier</a>
+        {% else %}
+            {% if isRegistered %}
+                <form action="{{ path('app_events_unregister', { 'id': event.id }) }}" method="post">
+                    <button type="submit" class="event-register">Se désinscrire</button>
+                </form>
+            {% else %}
+                <form action="{{ path('app_events_register', { 'id': event.id }) }}" method="post">
+                    <button type="submit" class="event-register">S'inscrire</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="artist">
+        <div class="artists-ul-li-left">
+            {% if event.artist.image %}
+                <img src="/uploads/artists/{{ event.artist.image }}" alt="{{ event.artist.name }}" width="150">
+            {% else %}
+                <p>Pas d'image disponible.</p>
+            {% endif %}
+        </div>
+
+        <div class="artists-ul-li-right">
+            <h1>{{ event.artist.name }}</h1>
+            <p>{{ event.artist.desc }}</p>
+            <a href={{ path('app_artists_show', {"id": event.artist.id }) }}>Voir plus</a>
+        </div>
+    </div>
+
+    <div class="users">
+        <h2>Liste des utilisateurs inscrits</h2>
+        <ul>
+            {% if event.users is empty %}
+                <p>Aucun utilisateur inscrit.</p>
+            {% else %}
+                {% for user in event.users %}
+                    <li>{{ user.email }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

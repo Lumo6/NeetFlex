@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des évènements suivis{% endblock %}
+
+{% block body %}
+
+    <h1 class="followed-event-h1">Voici la liste des évènements auquel tu es incrits !</h1>
+    <div class="followed-event">
+        {% if events is empty %}
+            <p>Aucun événement suivi.</p>
+        {% else %}
+            <ul>
+                {% for event in events %}
+                    <li>
+                        <h3><a class="event-title" href={{ path('app_events_show', {"id": event.id}) }}>{{ event.name }}</a></h3>
+                        <p>Date : {{ event.date|date('d/m/Y') }}</p>
+                        <p>Artiste : <a href={{ path('app_artists_show', {"id": event.artist.id }) }}>{{ event.artist.name }}</a></p>
+                        <a href="{{ path('app_events_show', { id: event.id }) }}">Voir plus</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
