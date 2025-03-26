@@ -61,8 +61,8 @@ final class ArtistController extends AbstractController
 
     #[Route('/api/artists/{id}', name: 'api_artist_show', methods: ['GET'])]
     #[OA\Get(
-        description: "Retourne les informations d'un artiste en fonction de son ID.",
-        summary: "Récupère un artiste spécifique",
+        description: "Retourne les informations d'un artiste en fonction de son ID, y compris ses événements.",
+        summary: "Récupère un artiste spécifique avec ses événements",
         tags: ["Artistes"],
         parameters: [
             new OA\Parameter(
@@ -76,13 +76,24 @@ final class ArtistController extends AbstractController
         responses: [
             new OA\Response(
                 response: 200,
-                description: "Détails de l'artiste",
+                description: "Détails de l'artiste avec ses événements",
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: "id", type: "integer"),
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "desc", type: "string"),
-                        new OA\Property(property: "image", type: "string")
+                        new OA\Property(property: "image", type: "string"),
+                        new OA\Property(
+                            property: "events",
+                            type: "array",
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property(property: "id", type: "integer"),
+                                    new OA\Property(property: "name", type: "string"),
+                                    new OA\Property(property: "date", type: "string", format: "date"),
+                                ]
+                            )
+                        )
                     ]
                 )
             ),
@@ -92,7 +103,7 @@ final class ArtistController extends AbstractController
             )
         ]
     )]
-    public function getArtist(int $id, ArtistRepository $artistRepository): JsonResponse
+    public function getArtist(int $id, ArtistRepository $artistRepository, EventRepository $eventRepository): JsonResponse
     {
         $artist = $artistRepository->find($id);
 
@@ -100,11 +111,19 @@ final class ArtistController extends AbstractController
             return $this->json(['message' => 'Artiste non trouvé'], 404);
         }
 
+        // Récupérer les événements associés à l'artiste
+        $events = $eventRepository->findBy(['artist' => $artist]);
+
         $data = [
             "id" => $artist->getId(),
             "name" => $artist->getName(),
             "desc" => $artist->getDesc(),
-            "image" => $artist->getImage()
+            "image" => $artist->getImage(),
+            "events" => array_map(fn($event) => [
+                "id" => $event->getId(),
+                "name" => $event->getName(),
+                "date" => $event->getDate()->format('Y-m-d'),
+            ], $events)
         ];
 
         return $this->json($data);

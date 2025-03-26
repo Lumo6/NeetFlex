@@ -75,8 +75,8 @@ final class EventController extends AbstractController
 
     #[Route('/api/events/{id}', name: 'api_events_show', methods: ['GET'])]
     #[OA\Get(
-        description: "Retourne les informations d'un événement en fonction de son ID.",
-        summary: "Récupère un événement spécifique",
+        description: "Retourne les informations d'un événement en fonction de son ID, y compris les utilisateurs inscrits.",
+        summary: "Récupère un événement spécifique avec les utilisateurs inscrits",
         tags: ["Événements"],
         parameters: [
             new OA\Parameter(
@@ -97,12 +97,18 @@ final class EventController extends AbstractController
                         new OA\Property(property: "name", type: "string"),
                         new OA\Property(property: "date", type: "string"),
                         new OA\Property(property: "artist", type: "object", properties: [
+                            new OA\Property(property: "id", type: "integer"),
+                            new OA\Property(property: "name", type: "string"),
+                            new OA\Property(property: "image", type: "string"),
+                            new OA\Property(property: "desc", type: "string"),
+                        ]),
+                        new OA\Property(property: "users", type: "array", items: new OA\Items(
+                            properties: [
                                 new OA\Property(property: "id", type: "integer"),
+                                new OA\Property(property: "email", type: "string"),
                                 new OA\Property(property: "name", type: "string"),
-                                new OA\Property(property: "image", type: "string"),
-                                new OA\Property(property: "desc", type: "string"),
-                            ]),
-                        new OA\Property(property: "users", type: "array", items: new OA\Items(type: "string")),
+                            ]
+                        )),
                     ]
                 )
             ),
@@ -123,14 +129,17 @@ final class EventController extends AbstractController
         $data = [
             "id" => $event->getId(),
             "name" => $event->getName(),
-            "date" => $event->getDate(),
+            "date" => $event->getDate()->format('Y-m-d'),
             "artist" => $event->getArtist() ? [
                 "id" => $event->getArtist()->getId(),
                 "name" => $event->getArtist()->getName(),
                 "image" => $event->getArtist()->getImage(),
                 "desc" => $event->getArtist()->getDesc(),
             ] : null,
-            "users" => array_map(fn($user) => $user->getEmail(), $event->getUsers()->toArray()) // Liste des noms d'utilisateurs
+            "users" => array_map(fn($user) => [
+                "id" => $user->getId(),
+                "email" => $user->getEmail()
+            ], $event->getUsers()->toArray())
         ];
 
         return $this->json($data);
