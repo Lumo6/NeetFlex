@@ -1,4 +1,4 @@
-import './Artists.css'; // Add this line to import the CSS file
+import './Artists.css';
 import { useEffect, useState } from 'react';
 
 function Artists({ navigateTo }) {
@@ -6,11 +6,20 @@ function Artists({ navigateTo }) {
   const [artists, setArtists] = useState([]);
   const [filter, setFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/artists`)
-      .then((response) => response.json())
-      .then((data) => setArtists(data));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Erreur lors du chargement des artistes: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((data) => setArtists(data))
+      .catch((err) => setError(err.message));
   }, []);
 
   const filteredArtists = artists
@@ -26,6 +35,9 @@ function Artists({ navigateTo }) {
   return (
     <div className="artists-container">
       <h1>Liste des artistes</h1>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
       <input
         type="text"
         placeholder="Filtrer par nom"

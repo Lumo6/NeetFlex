@@ -1,4 +1,4 @@
-import './Events.css'; // Add this line to import the CSS file
+import './Events.css';
 import { useEffect, useState } from 'react';
 
 function Events({ navigateTo }) {
@@ -8,11 +8,20 @@ function Events({ navigateTo }) {
   const [sortBy, setSortBy] = useState('name');
   const [sortOrderName, setSortOrderName] = useState('asc');
   const [sortOrderDate, setSortOrderDate] = useState('asc');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/events`)
-      .then((response) => response.json())
-      .then((data) => setEvents(data));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Erreur lors du chargement des événements: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((data) => setEvents(data))
+      .catch((err) => setError(err.message));
   }, []);
 
   const filteredEvents = events
@@ -32,6 +41,9 @@ function Events({ navigateTo }) {
   return (
     <div className="events-container">
       <h1>Liste des événements</h1>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
       <input
         type="text"
         placeholder="Filtrer par nom"

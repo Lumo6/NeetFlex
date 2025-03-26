@@ -1,16 +1,26 @@
-import './ArtistDetails.css'; // Add this line to import the CSS file
+import './ArtistDetails.css';
 import { useEffect, useState } from 'react';
 
 function ArtistDetails({ id, navigateTo }) {
   const API_BASE_URL = 'http://127.0.0.1:44444/api';
   const [artist, setArtist] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/artists/${id}`)
-      .then((response) => response.json())
-      .then((data) => setArtist(data));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Erreur lors du chargement de l'artiste: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((data) => setArtist(data))
+      .catch((err) => setError(err.message));
   }, [id]);
 
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
   if (!artist) return <p>Chargement...</p>;
 
   return (
