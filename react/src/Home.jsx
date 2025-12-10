@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 function Home({ navigateTo }) {
-  const API_BASE_URL = 'http://127.0.0.1:44444/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [artists, setArtists] = useState([]);
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);

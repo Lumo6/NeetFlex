@@ -2,7 +2,7 @@ import './Events.css';
 import { useEffect, useState } from 'react';
 
 function Events({ navigateTo }) {
-  const API_BASE_URL = 'http://127.0.0.1:44444/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [events, setEvents] = useState([]);
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('name');

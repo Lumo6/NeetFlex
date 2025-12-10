@@ -1,0 +1,74 @@
+
+services:
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: mypass
+      POSTGRES_USER: app
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+  # Service React avec gestion des secrets
+  front-react:
+    build:
+      context: ./react
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    secrets:
+      - vite_api_base_url
+    environment:
+      NODE_ENV: production
+
+
+  # Service PHP
+  backend-symfony:
+    build:
+      context: ./symfony
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/srv/app:delegated
+    working_dir: /srv/app
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      DATABASE_URL: ${DATABASE_URL:-}
+    depends_on:
+      database:
+        condition: service_healthy
+    secrets:
+      - database_url
+      - app_secret
+
+  # Service Nginx
+  nginx:
+    image: nginx:1.24-alpine
+    volumes:
+      - ./symfony:/srv/app:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend-symfony
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###
+
+secrets:
+  vite_api_base_url:
+    file: ./docker/secrets/VITE_API_BASE_URL
+  database_url:
+    file: ./docker/secrets/DATABASE_URL
+  app_secret:
+    file: ./docker/secrets/APP_SECRET

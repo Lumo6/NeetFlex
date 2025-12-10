@@ -2,7 +2,7 @@ import './ArtistDetails.css';
 import { useEffect, useState } from 'react';
 
 function ArtistDetails({ id, navigateTo }) {
-  const API_BASE_URL = 'http://127.0.0.1:44444/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [artist, setArtist] = useState(null);
   const [error, setError] = useState(null);
 
